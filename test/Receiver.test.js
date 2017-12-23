@@ -447,7 +447,7 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'RSV1 must be clear');
       assert.strictEqual(code, 1002);
       done();
@@ -463,7 +463,7 @@ describe('Receiver', function () {
     const p = new Receiver({ 'permessage-deflate': perMessageDeflate });
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'RSV1 must be clear');
       assert.strictEqual(code, 1002);
       done();
@@ -476,7 +476,7 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'RSV2 and RSV3 must be clear');
       assert.strictEqual(code, 1002);
       done();
@@ -489,7 +489,7 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'RSV2 and RSV3 must be clear');
       assert.strictEqual(code, 1002);
       done();
@@ -502,8 +502,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid opcode: 0');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid opcode: 0');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -515,8 +515,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid opcode: 1');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid opcode: 1');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -529,8 +529,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid opcode: 2');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid opcode: 2');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -543,7 +543,7 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'FIN must be set');
       assert.strictEqual(code, 1002);
       done();
@@ -559,7 +559,7 @@ describe('Receiver', function () {
     const p = new Receiver({ 'permessage-deflate': perMessageDeflate });
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'RSV1 must be clear');
       assert.strictEqual(code, 1002);
       done();
@@ -572,7 +572,7 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
+      assert.ok(err instanceof RangeError);
       assert.strictEqual(err.message, 'FIN must be set');
       assert.strictEqual(code, 1002);
       done();
@@ -585,8 +585,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid payload length');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid payload length');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -598,8 +598,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'max payload size exceeded');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Max payload size exceeded');
       assert.strictEqual(code, 1009);
       done();
     };
@@ -616,7 +616,7 @@ describe('Receiver', function () {
 
     p.onerror = function (err, code) {
       assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid utf8 sequence');
+      assert.strictEqual(err.message, 'Invalid UTF-8 sequence');
       assert.strictEqual(code, 1007);
       done();
     };
@@ -628,8 +628,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid payload length');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid payload length');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -641,8 +641,8 @@ describe('Receiver', function () {
     const p = new Receiver();
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid status code: 0');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Invalid status code: 0');
       assert.strictEqual(code, 1002);
       done();
     };
@@ -655,7 +655,7 @@ describe('Receiver', function () {
 
     p.onerror = function (err, code) {
       assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'invalid utf8 sequence');
+      assert.strictEqual(err.message, 'Invalid UTF-8 sequence');
       assert.strictEqual(code, 1007);
       done();
     };
@@ -678,8 +678,8 @@ describe('Receiver', function () {
     const frame = Buffer.concat(list);
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'max payload size exceeded');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Max payload size exceeded');
       assert.strictEqual(code, 1009);
       done();
     };
@@ -702,8 +702,8 @@ describe('Receiver', function () {
     const frame = Buffer.concat(list);
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'max payload size exceeded');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Max payload size exceeded');
       assert.strictEqual(code, 1009);
       done();
     };
@@ -719,8 +719,8 @@ describe('Receiver', function () {
     const buf = Buffer.from('A'.repeat(50));
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'max payload size exceeded');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Max payload size exceeded');
       assert.strictEqual(code, 1009);
       done();
     };
@@ -741,8 +741,8 @@ describe('Receiver', function () {
     const buf = Buffer.from('A'.repeat(15));
 
     p.onerror = function (err, code) {
-      assert.ok(err instanceof Error);
-      assert.strictEqual(err.message, 'max payload size exceeded');
+      assert.ok(err instanceof RangeError);
+      assert.strictEqual(err.message, 'Max payload size exceeded');
       assert.strictEqual(code, 1009);
       done();
     };
