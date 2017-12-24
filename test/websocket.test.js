@@ -657,43 +657,47 @@ describe('WebSocket', function () {
   });
 
   describe('#ping', function () {
-    it('before connect should fail', function () {
+    it('throws an error if `readyState` is not `OPEN`', function (done) {
       const ws = new WebSocket('ws://localhost', {
         agent: new CustomAgent()
       });
 
       assert.throws(() => ws.ping(), /^Error: WebSocket is not open$/);
-    });
 
-    it('before connect can silently fail', function () {
-      const ws = new WebSocket('ws://localhost', {
-        agent: new CustomAgent()
-      });
-
-      assert.doesNotThrow(() => ws.ping('', true, true));
-    });
-
-    it('without message is successfully transmitted to the server', function (done) {
-      const wss = new WebSocket.Server({ port: 0 }, () => {
-        const port = wss._server.address().port;
-        const ws = new WebSocket(`ws://localhost:${port}`);
-
-        ws.on('open', () => ws.ping());
-      });
-
-      wss.on('connection', (ws) => {
-        ws.on('ping', () => wss.close(done));
+      ws.ping((err) => {
+        assert.ok(err instanceof Error);
+        assert.strictEqual(err.message, 'WebSocket is not open');
+        done();
       });
     });
 
-    it('with message is successfully transmitted to the server', function (done) {
+    it('can send a ping with no data', function (done) {
       const wss = new WebSocket.Server({ port: 0 }, () => {
         const port = wss._server.address().port;
         const ws = new WebSocket(`ws://localhost:${port}`);
 
         ws.on('open', () => {
-          ws.ping('hi', true);
-          ws.ping('hi');
+          ws.ping(() => ws.ping());
+        });
+      });
+
+      wss.on('connection', (ws) => {
+        let pings = 0;
+        ws.on('ping', (data) => {
+          assert.ok(Buffer.isBuffer(data));
+          assert.strictEqual(data.length, 0);
+          if (++pings === 2) wss.close(done);
+        });
+      });
+    });
+
+    it('can send a ping with data', function (done) {
+      const wss = new WebSocket.Server({ port: 0 }, () => {
+        const port = wss._server.address().port;
+        const ws = new WebSocket(`ws://localhost:${port}`);
+
+        ws.on('open', () => {
+          ws.ping('hi', () => ws.ping('hi', true));
         });
       });
 
@@ -724,43 +728,47 @@ describe('WebSocket', function () {
   });
 
   describe('#pong', function () {
-    it('before connect should fail', () => {
+    it('throws an error if `readyState` is not `OPEN`', (done) => {
       const ws = new WebSocket('ws://localhost', {
         agent: new CustomAgent()
       });
 
       assert.throws(() => ws.pong(), /^Error: WebSocket is not open$/);
-    });
 
-    it('before connect can silently fail', function () {
-      const ws = new WebSocket('ws://localhost', {
-        agent: new CustomAgent()
-      });
-
-      assert.doesNotThrow(() => ws.pong('', true, true));
-    });
-
-    it('without message is successfully transmitted to the server', function (done) {
-      const wss = new WebSocket.Server({ port: 0 }, () => {
-        const port = wss._server.address().port;
-        const ws = new WebSocket(`ws://localhost:${port}`);
-
-        ws.on('open', () => ws.pong());
-      });
-
-      wss.on('connection', (ws) => {
-        ws.on('pong', () => wss.close(done));
+      ws.pong((err) => {
+        assert.ok(err instanceof Error);
+        assert.strictEqual(err.message, 'WebSocket is not open');
+        done();
       });
     });
 
-    it('with message is successfully transmitted to the server', function (done) {
+    it('can send a pong with no data', function (done) {
       const wss = new WebSocket.Server({ port: 0 }, () => {
         const port = wss._server.address().port;
         const ws = new WebSocket(`ws://localhost:${port}`);
 
         ws.on('open', () => {
-          ws.pong('hi', true);
-          ws.pong('hi');
+          ws.pong(() => ws.pong());
+        });
+      });
+
+      wss.on('connection', (ws) => {
+        let pongs = 0;
+        ws.on('pong', (data) => {
+          assert.ok(Buffer.isBuffer(data));
+          assert.strictEqual(data.length, 0);
+          if (++pongs === 2) wss.close(done);
+        });
+      });
+    });
+
+    it('can send a pong with data', function (done) {
+      const wss = new WebSocket.Server({ port: 0 }, () => {
+        const port = wss._server.address().port;
+        const ws = new WebSocket(`ws://localhost:${port}`);
+
+        ws.on('open', () => {
+          ws.pong('hi', () => ws.pong('hi', true));
         });
       });
 
